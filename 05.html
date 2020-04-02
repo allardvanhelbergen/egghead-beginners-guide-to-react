@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <title>Al's react tutorial</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    // const firstSpan = React.createElement(
+    //   "span",
+    //   { className: "first-span" },
+    //   "Hello"
+    // );
+    // const secondSpan = React.createElement(
+    //   "span",
+    //   { className: "second-span" },
+    //   " World"
+    // );
+    // const element = React.createElement(
+    //   React.Fragment,
+    //   null,
+    //   firstSpan,
+    //   secondSpan
+    // );
+    const element = (
+      <>
+        <span>Hello</span> <span>World</span>
+      </>
+    );
+
+    ReactDOM.render(element, document.getElementById("root"));
+  </script>
+</html>

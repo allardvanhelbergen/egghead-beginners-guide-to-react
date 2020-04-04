@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+    <title>Al's react tutorial</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    const CharacterCount = ({ text }) => {
+      const length = text.length;
+      if (length > 0) {
+        return (
+          <p>
+            The text <i>{text}</i> has {length} characters.
+          </p>
+        );
+      } else {
+        return <p>This text has no characters.</p>;
+      }
+    };
+    const AltCharacterCount = ({ text }) => (
+      <p>
+        The text {text} has {text.length > 0 ? text.length : "no"} characters.
+      </p>
+    );
+
+    CharacterCount.propTypes = {
+      text: PropTypes.string.isRequired
+    };
+    AltCharacterCount.propTypes = {
+      text: PropTypes.string.isRequired
+    };
+
+    const element = (
+      <>
+        <h1>Character count</h1>
+        <CharacterCount text="This is a text" />
+        <CharacterCount text="" />
+        <h1>Alternate character count</h1>
+        <AltCharacterCount text="This is another text" />
+        <AltCharacterCount text="" />
+      </>
+    );
+
+    ReactDOM.render(element, document.getElementById("root"));
+  </script>
+</html>

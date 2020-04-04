@@ -12,25 +12,39 @@
   <body>
     <div id="root"></div>
   </body>
-  <style>
-    .box {
-      background-color: red;
-    }
-
-    .box--small {
-      background-color: green;
-    }
-  </style>
   <script type="text/babel">
-    const element = (
-      <div className="box">
-        First div
-        <div className="box--small" style={{ fontStyle: "italic" }}>
-          Second div
-        </div>
-      </div>
-    );
+    const state = { eventCount: 0, username: "" };
 
-    ReactDOM.render(element, document.getElementById("root"));
+    function App() {
+      return (
+        <div>
+          <p>There have been {state.eventCount} clicks.</p>
+          <div>
+            <input type="button" value="Click me" onClick={handleClick} />
+          </div>
+          <p>Your name is: {state.username}</p>
+          <input type="text" name="username" id="" onChange={handleBlur} />
+        </div>
+      );
+    }
+
+    function handleBlur(event) {
+      setState({ username: event.target.value });
+    }
+
+    function handleClick() {
+      setState({ eventCount: state.eventCount + 1 });
+    }
+
+    function setState(newState) {
+      Object.assign(state, newState);
+      renderApp();
+    }
+
+    function renderApp() {
+      ReactDOM.render(<App />, document.getElementById("root"));
+    }
+
+    renderApp();
   </script>
 </html>

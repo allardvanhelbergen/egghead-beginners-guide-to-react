@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+    <title>Al's react tutorial</title>
+    <style>
+      label {
+        display: block;
+        margin-top: 2rem;
+      }
+      input {
+        display: block;
+        margin-top: 0.5rem;
+      }
+      button {
+        background-color: lightyellow;
+        min-width: 100px;
+        min-height: 50px;
+        font-weight: bolder;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    function useLocalStorageState(key, defaultValue = "") {
+      const [state, setState] = React.useState(
+        () => window.localStorage.getItem(key) || ""
+      );
+
+      React.useEffect(() => {
+        window.localStorage.setItem(key, state);
+      }, [key, state]);
+
+      return [state, setState];
+    }
+
+    function Greeting() {
+      const [name, setName] = useLocalStorageState("name");
+      const handleChangeName = event => setName(event.target.value);
+
+      return (
+        <div>
+          <p>{name ? <>&nbsp;</> : "Please state your name."}</p>
+          <form>
+            <label>
+              Name
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={handleChangeName}
+              />
+            </label>
+          </form>
+          <p>{name ? <strong>Hello, {name}.</strong> : ""}</p>
+        </div>
+      );
+    }
+
+    function Counter() {}
+
+    function App() {
+      // This is not great component deconstruction, but it's just to prove a
+      // point that useEffect gets called every rerender now, because the button
+      // triggers a rerender of the Greeting component.
+      const [count, setCount] = React.useState(0);
+      return (
+        <>
+          <button onClick={c => setCount(c => c + 1)}>{count}</button>
+          <Greeting />
+        </>
+      );
+    }
+
+    function renderApp() {
+      ReactDOM.render(<App />, document.getElementById("root"));
+    }
+
+    renderApp();
+  </script>
+</html>

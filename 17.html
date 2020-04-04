@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <script src="https://unpkg.com/vanilla-tilt@1.7.0/dist/vanilla-tilt.min.js"></script>
+    <title>Al's react tutorial</title>
+    <style>
+      .tilt-box {
+        height: 250px;
+        width: 250px;
+        border-radius: 25px;
+        background: radial-gradient(
+              circle at 0% 50%,
+              rgba(96, 16, 48, 0) 9px,
+              #613 10px,
+              rgba(96, 16, 48, 0) 11px
+            )
+            0px 10px,
+          radial-gradient(
+            at 100% 100%,
+            rgba(96, 16, 48, 0) 9px,
+            #613 10px,
+            rgba(96, 16, 48, 0) 11px
+          ),
+          rgb(203, 255, 73);
+        background-size: 20px 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    function Tilt({ showTilt }) {
+      const tiltRef = React.useRef();
+
+      React.useEffect(() => {
+        const tiltNode = tiltRef.current;
+
+        if (showTilt) {
+          VanillaTilt.init(tiltNode, {
+            glare: true,
+            "max-glare": 0.5
+          });
+
+          return () => {
+            tiltNode.vanillaTilt.destroy();
+          };
+        }
+      }, [showTilt]);
+
+      return <div ref={tiltRef} className="tilt-box" />;
+    }
+
+    function App() {
+      const [showTilt, setShowTilt] = React.useState(true);
+      const handleCheck = e => setShowTilt(e.target.checked);
+
+      return (
+        <>
+          <p>This is a tilt box.</p>
+          <label>
+            <input
+              type="checkbox"
+              name="showTilt"
+              onChange={handleCheck}
+              checked={showTilt}
+            />
+            Tilt that box!
+          </label>
+          <Tilt showTilt={showTilt} />
+        </>
+      );
+    }
+
+    function renderApp() {
+      ReactDOM.render(<App />, document.getElementById("root"));
+    }
+
+    renderApp();
+  </script>
+</html>

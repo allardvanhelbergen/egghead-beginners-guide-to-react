@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <script src="https://unpkg.com/prop-types@15.6.1/prop-types.js"></script>
+    <title>Al's react tutorial</title>
+    <style>
+      label {
+        display: block;
+        margin-top: 2rem;
+      }
+      input {
+        display: block;
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    function App() {
+      const [name, setName] = React.useState(() => {
+        console.log("inside the init loop");
+        window.localStorage.getItem("name") || "";
+      });
+      console.log("rendering the component");
+
+      const handleChangeName = event => setName(event.target.value);
+      React.useEffect(() => window.localStorage.setItem("name", name));
+
+      return (
+        <div>
+          <p>{name ? <>&nbsp;</> : "Please state your name."}</p>
+          <form>
+            <label>
+              Name
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={handleChangeName}
+              />
+            </label>
+          </form>
+          <p>{name ? <strong>Hello, {name}.</strong> : ""}</p>
+        </div>
+      );
+    }
+
+    function renderApp() {
+      ReactDOM.render(<App />, document.getElementById("root"));
+    }
+
+    renderApp();
+  </script>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <title>Al's react tutorial</title>
+    <style>
+      label,
+      input {
+        display: block;
+        margin-top: 0.5rem;
+      }
+      .form-field {
+        padding: 0.5rem;
+      }
+      .field-description {
+        font-size: 10px;
+        margin-top: 0.5em;
+      }
+      .error {
+        color: red;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    function App() {
+      const [username, setUsername] = React.useState(
+        () => window.localStorage.getItem("username") || ""
+      );
+
+      const isLowerCase = username === username.toLowerCase();
+      const showError = !isLowerCase;
+      const handleUsername = event => setUsername(event.target.value);
+
+      React.useEffect(() => {
+        window.localStorage.setItem("username", username);
+      }, [username]);
+
+      function handleSubmit(event) {
+        event.preventDefault();
+        console.log("username :", username);
+      }
+
+      return (
+        <form onSubmit={handleSubmit}>
+          <div className="form-field">
+            <label>
+              Username:
+              <input
+                id="usernameInput"
+                type="text"
+                onChange={handleUsername}
+                value={username}
+              />
+            </label>
+            <p className="field-description">
+              {showError && (
+                <span className="error">Disallowed characters detected. </span>
+              )}
+              Must be all lower case.
+            </p>
+          </div>
+          <button disabled={showError} type="submit">
+            Submit
+          </button>
+        </form>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</html>

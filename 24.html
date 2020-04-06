@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/react@16.13.1/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.13.1/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.8.3/babel.js"></script>
+    <title>Al's react tutorial</title>
+    <style>
+      label {
+        display: block;
+        margin-top: 2rem;
+        font-weight: bold;
+      }
+      input {
+        display: block;
+        margin-top: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+  <script type="text/babel">
+    function useLocalStorageState(key, defaultValue = "") {
+      const [state, setState] = React.useState(
+        () => window.localStorage.getItem(key) || defaultValue
+      );
+
+      React.useEffect(() => {
+        window.localStorage.setItem(key, state);
+      }, [key, state]);
+
+      return [state, setState];
+    }
+
+    function Display({ name, animal }) {
+      if (name && animal) {
+        return (
+          <p>
+            Hey {name}, you're favourit animal is {animal}.
+          </p>
+        );
+      } else if (name) {
+        return <p>Hey {name} you are great!</p>;
+      } else {
+        return <p>Please enter a name.</p>;
+      }
+    }
+
+    function App() {
+      const [name, setName] = useLocalStorageState("name");
+      const [animal, setAnimal] = useLocalStorageState("animal");
+
+      return (
+        <>
+          <form>
+            <label>
+              Name:
+              <input
+                type="text"
+                name="name"
+                value={name}
+                onChange={() => setName(event.target.value)}
+              />
+            </label>
+            <label>
+              Favourite animal:
+              <input
+                type="text"
+                name="animal"
+                value={animal}
+                onChange={() => setAnimal(event.target.value)}
+              />
+            </label>
+          </form>
+          <div>
+            <Display name={name} animal={animal} />
+          </div>
+        </>
+      );
+    }
+
+    ReactDOM.render(<App />, document.getElementById("root"));
+  </script>
+</html>
